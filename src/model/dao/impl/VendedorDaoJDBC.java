@@ -57,18 +57,8 @@ public class VendedorDaoJDBC implements VendedorDao {
 			
 			// se rs.next() retorna false significa que o executeQuery não gerou resultado
 			if(rs.next()) {
-				Departamento dep = new Departamento();
-				dep.setId(rs.getInt("DepartamentoId"));
-				dep.setNome(rs.getString("DepNome"));
-				
-				Vendedor vend = new Vendedor();
-				vend.setId(rs.getInt("Id"));
-				vend.setNome(rs.getString("Nome"));
-				vend.setEmail(rs.getString("Email"));
-				vend.setDataNascimento(rs.getDate("DataNascimento"));
-				vend.setSalarioBase(rs.getDouble("SalarioBase"));
-				vend.setDepartamento(dep);
-				
+				Departamento dep = instanciaDepartamento(rs);
+				Vendedor vend = instanciaVendedor(rs, dep);
 				return vend;
 			}
 			return null;	
@@ -81,6 +71,24 @@ public class VendedorDaoJDBC implements VendedorDao {
 			DB.closeResultSet(rs);
 		}
 
+	}
+
+	private Vendedor instanciaVendedor(ResultSet rs, Departamento dep) throws SQLException {
+		Vendedor vend = new Vendedor();
+		vend.setId(rs.getInt("Id"));
+		vend.setNome(rs.getString("Nome"));
+		vend.setEmail(rs.getString("Email"));
+		vend.setDataNascimento(rs.getDate("DataNascimento"));
+		vend.setSalarioBase(rs.getDouble("SalarioBase"));
+		vend.setDepartamento(dep);
+		return vend;
+	}
+
+	private Departamento instanciaDepartamento(ResultSet rs) throws SQLException {
+		Departamento dep = new Departamento();
+		dep.setId(rs.getInt("DepartamentoId"));
+		dep.setNome(rs.getString("DepNome"));
+		return dep;
 	}
 
 	@Override
