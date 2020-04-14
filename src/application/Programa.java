@@ -32,6 +32,11 @@ public class Programa {
 			System.out.println(vendedor);
 		}
 		
+		System.out.println("\n===== TESTE 3: vendedor buscaTudo =====");
+		lista = vendedorDao.buscaTudo();
+		for (Vendedor vendedor : lista) {
+			System.out.println(vendedor);
+		}
 
 	}
 

@@ -95,9 +95,50 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public List<Vendedor> retornaTudo() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Vendedor> buscaTudo() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT v.*, d.Nome DepNome\r\n" + 
+					"  FROM departamento d,\r\n" + 
+					"       vendedor v\r\n" + 
+					" WHERE d.Id = v.DepartamentoId\r\n" + 
+					" ORDER BY v.Nome;");
+			
+			rs = st.executeQuery();
+			
+			// cria uma lista para guardar os vendedores retornados pelo resultset
+			List<Vendedor> lista = new ArrayList<Vendedor>();
+			
+			// cria um objeto Map composto por um valor inteiro, que vai ser o id do departamento, e pelo próprio objeto Departamento
+			Map<Integer, Departamento> map = new HashMap<Integer, Departamento>();
+			
+			// quando rs.next() retornar false significa que o executeQuery não encontrou mais registro
+			while(rs.next()) {
+				
+				// dep recebe o departamento que está no map, retornado a partir do id do departamento
+				Departamento dep = map.get(rs.getInt("DepartamentoId"));
+				
+				// verifica se o departamento já existe no map
+				if(dep == null) {
+					// se não existir, instancia o departamento e joga dentro do map
+					dep = instanciaDepartamento(rs);
+					map.put(rs.getInt("DepartamentoId"), dep);
+				}
+				Vendedor vend = instanciaVendedor(rs, dep);
+				lista.add(vend);
+			}
+			return lista;	
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
