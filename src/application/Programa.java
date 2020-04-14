@@ -2,6 +2,7 @@ package application;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.VendedorDao;
@@ -12,6 +13,7 @@ public class Programa {
 
 	public static void main(String[] args) {
 		
+		Scanner sc = new Scanner(System.in);
 		/*Departamento obj = new Departamento(1, "Livros");
 		System.out.println(obj);
 		
@@ -48,7 +50,15 @@ public class Programa {
 		vend = vendedorDao.buscaPorId(1);
 		vend.setNome("Martha Waine");
 		vendedorDao.atualiza(vend);
-		System.out.println("Vendedor atualizado");
+		System.out.println("Vendedor atualizado!");
+		
+		System.out.println("\n===== TESTE 6: vendedor excluirPorId =====");
+		System.out.print("Entre com um Id de vendedor para a exclusão:");
+		int id = sc.nextInt();
+		vendedorDao.excluirPorId(id);
+		System.out.println("Vendedor excluído!");
+		
+		sc.close();
 
 	}
 
