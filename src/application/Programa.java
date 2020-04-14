@@ -27,7 +27,7 @@ public class Programa {
 		
 		System.out.println("\n===== TESTE 2: vendedor buscaPorDepartamento =====");
 		Departamento dep = new Departamento(2, null);
-		List<Vendedor> lista = vendedorDao.retornaPorDepartamento(dep);
+		List<Vendedor> lista = vendedorDao.buscaPorDepartamento(dep);
 		for (Vendedor vendedor : lista) {
 			System.out.println(vendedor);
 		}

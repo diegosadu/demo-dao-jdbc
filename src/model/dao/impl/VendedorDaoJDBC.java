@@ -101,7 +101,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public List<Vendedor> retornaPorDepartamento(Departamento departamento) {
+	public List<Vendedor> buscaPorDepartamento(Departamento departamento) {
 		
 		PreparedStatement st = null;
 		ResultSet rs = null;
